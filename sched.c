@@ -124,6 +124,9 @@ int main() {
     i = 0;
     printf("Using FIFO\n");
     while(i <= (all-1)){
+        if ((theTime - FIFO[i].arrival) < start) {
+            theTime = theTime + FIFO[i].arrival;
+        }
         printf("Job #%i Start at: %s",FIFO[i].jid, asctime(timeinfo));
         theTime = theTime + FIFO[i].duration;
         timeinfo = localtime(&theTime);
@@ -137,6 +140,9 @@ int main() {
     i = 0;
     printf("Using SJF\n");
     while(i <= (all-1)){
+        if ((theTime - SJF[i].arrival) < start) {
+            theTime = theTime + SJF[i].arrival;
+        }
         printf("Job #%i Start at: %s",SJF[i].jid, asctime(timeinfo));
         theTime = theTime + SJF[i].duration;
         timeinfo = localtime(&theTime);
@@ -150,6 +156,9 @@ int main() {
     i = 0;
     printf("Using BJF\n");
     while(i <= (all-1)){
+        if ((theTime - BJF[i].arrival) < start) {
+            theTime = theTime + BJF[i].arrival;
+        }
         printf("Job #%i Start at: %s",BJF[i].jid, asctime(timeinfo));
         theTime = theTime + BJF[i].duration;
         timeinfo = localtime(&theTime);
