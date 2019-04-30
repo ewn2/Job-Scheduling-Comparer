@@ -13,6 +13,7 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <signal.h>
+#include <time.h>
 
 struct jobs {
     int jid;
@@ -20,9 +21,29 @@ struct jobs {
     int duration;
 };
 
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void Sort(int a[], int j) {
+    int m;
+    int n;
+    for(m = 0; m < j-1; m++)
+    {
+        for(n = 0; n < j-1; n++)
+        {
+            if(a[n] > a[n+1]) {
+                swap(&a[n], &a[n+1]);
+            }
+        }
+        
+    }
+    
+}
+
 int main() {
-    char *p;
-    char *delim1 = " ";
     char line[200];
     int i = 0;
     int current;
@@ -37,7 +58,6 @@ int main() {
         current = sscanf(line, "%i %i %i", &input[i].jid, &input[i].arrival, &input[i].duration);
         i++;
     }
-
     //Test Prints to check if jobs.dat has been correctly read;
     i = 0;
     while(i < 10){
