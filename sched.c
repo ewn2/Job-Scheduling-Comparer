@@ -46,26 +46,78 @@ void Sort(int a[], int j) {
 int main() {
     char line[200];
     int i = 0;
+    int all = 1;
     int current;
+    int forFIFO;
+    int forSJF;
+    int forBJF;
+    int forSTCF;
+    int forRR;
     FILE *jobList;
-    struct jobs input[20000];
+    struct jobs input[100];
+    struct jobs FIFO[100];
+    struct jobs SJF[100];
+    struct jobs BJF[100];
+    struct jobs STCF[100];
+    struct jobs RR[100];
     jobList = fopen ("jobs.dat", "r");
     if (jobList == NULL) {
         printf("\nUnable to either read jobs.dat file\n");
         exit (1);
     }
-    while(fgets(line, sizeof(line), jobList) != NULL && i < 1000) {
+    while(fgets(line, sizeof(line), jobList) != NULL && i < all) {
         current = sscanf(line, "%i %i %i", &input[i].jid, &input[i].arrival, &input[i].duration);
+        all++;
         i++;
     }
-    //Test Prints to check if jobs.dat has been correctly read;
+    all--;
     i = 0;
-    while(i < 10){
-        printf("\n%i, %i, %i", input[i].jid, input[i].arrival, input[i].duration);
+    fclose(jobList);
+
+    while(i < all){
+        FIFO[i] = input[i];
+        SJF[i] = input[i];
+        BJF[i] = input[i];
+        STCF[i] = input[i];
+        RR[i] = input[i];
         i++;
     }
-    printf("\n");
-    fclose(jobList);
-    return 0;
+    int m;
+    int n;
+    for(m = 0; m < all-1; m++)
+    {
+        for(n = 0; n < all-1; n++)
+        {
+            if(FIFO[n].arrival > FIFO[n+1].arrival) {
+                swap(&FIFO[n].arrival, &FIFO[n+1].arrival);
+                swap(&FIFO[n].jid, &FIFO[n+1].jid);
+                swap(&FIFO[n].duration, &FIFO[n+1].duration);
+            }
+        }
+        
+    }
+
+    time_t theTime;
+    struct tm * timeinfo;
+    time (&theTime);
+    timeinfo = localtime(&theTime);
+    time_t start = theTime;
+    i = 0;
+    while(i <= (all-1)){
+        printf("Starting Job: #%i at %s",FIFO[i].jid, asctime(timeinfo));
+        theTime = theTime + FIFO[i].duration;
+        timeinfo = localtime(&theTime);
+        printf("Ending Job at: %s", asctime(timeinfo));
+        long dif = difftime(theTime, start);
+        printf("Total elapsed time: %li seconds\n\n", dif);
+        i++;
+    }
     
+
+    // while(i <= (all-1)){
+    //     //printf("%i, %i, %i\n", input[i].jid, input[i].arrival, input[i].duration);
+    //     printf("%i, %i, %i\n", FIFO[i].jid, FIFO[i].arrival, FIFO[i].duration);
+    //     i++;
+    // }
+    return 0;
 }
