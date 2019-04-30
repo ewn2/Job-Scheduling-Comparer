@@ -122,12 +122,12 @@ int main() {
     timeinfo = localtime(&theTime);
     time_t start = theTime;
     i = 0;
-    printf("Using SJF\n");
+    printf("Using FIFO\n");
     while(i <= (all-1)){
-        printf("Starting Job: #%i at %s",FIFO[i].jid, asctime(timeinfo));
+        printf("Job #%i Start at: %s",FIFO[i].jid, asctime(timeinfo));
         theTime = theTime + FIFO[i].duration;
         timeinfo = localtime(&theTime);
-        printf("Ending Job at: %s", asctime(timeinfo));
+        printf("Job #%i End at: %s", FIFO[i].jid, asctime(timeinfo));
         long dif = difftime(theTime, start);
         printf("Total elapsed time: %li seconds\n\n", dif);
         i++;
