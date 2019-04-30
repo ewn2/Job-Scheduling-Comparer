@@ -120,6 +120,7 @@ int main() {
     struct tm * timeinfo;
     time (&theTime);
     timeinfo = localtime(&theTime);
+    long averager;
     time_t start = theTime;
     i = 0;
     printf("Using FIFO\n");
@@ -131,11 +132,13 @@ int main() {
         theTime = theTime + FIFO[i].duration;
         timeinfo = localtime(&theTime);
         printf("Job #%i End at: %s", FIFO[i].jid, asctime(timeinfo));
+        long roller = difftime(theTime - FIFO[i].arrival, start);
         long dif = difftime(theTime, start);
-        printf("Total elapsed time: %li seconds\n\n", dif);
+        printf("Response Time: %li seconds\nTotal elapsed time: %li seconds\n\n", roller, dif);
         i++;
     }
-    printf("\n");
+    averager = difftime(theTime, start)/all;
+    printf("Average time per job: %li seconds\nEnd FIFO\n\n", averager);
     start = theTime;
     i = 0;
     printf("Using SJF\n");
@@ -147,11 +150,13 @@ int main() {
         theTime = theTime + SJF[i].duration;
         timeinfo = localtime(&theTime);
         printf("Job #%i End at: %s", SJF[i].jid, asctime(timeinfo));
+        long roller = difftime(theTime - FIFO[i].arrival, start);
         long dif = difftime(theTime, start);
-        printf("Total elapsed time: %li seconds\n\n", dif);
+        printf("Response Time: %li seconds\nTotal elapsed time: %li seconds\n\n", roller, dif);
         i++;
     }
-    printf("\n");
+    averager = difftime(theTime, start)/all;
+    printf("Average time per job: %li seconds\nEnd SJF\n\n", averager);
     start = theTime;
     i = 0;
     printf("Using BJF\n");
@@ -163,11 +168,13 @@ int main() {
         theTime = theTime + BJF[i].duration;
         timeinfo = localtime(&theTime);
         printf("Job #%i End at: %s", BJF[i].jid, asctime(timeinfo));
+        long roller = difftime(theTime - FIFO[i].arrival, start);
         long dif = difftime(theTime, start);
-        printf("Total elapsed time: %li seconds\n\n", dif);
+        printf("Response Time: %li seconds\nTotal elapsed time: %li seconds\n\n", roller, dif);
         i++;
     }
-    printf("\n");
+    averager = difftime(theTime, start)/all;
+    printf("Average time per job: %li seconds\nEnd BJF\n\n", averager);
     // i = 0;
     // while(i <= (all-1)){
     //     printf("%i, %i, %i\n", SJF[i].jid, SJF[i].arrival, SJF[i].duration);
