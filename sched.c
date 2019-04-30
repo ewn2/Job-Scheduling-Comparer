@@ -97,12 +97,32 @@ int main() {
         
     }
 
+    for(m = 0; m < all-1; m++)
+    {
+        for(n = 0; n < all-1; n++)
+        {
+            if(SJF[n].duration > SJF[n+1].duration) {
+                swap(&SJF[n].arrival, &SJF[n+1].arrival);
+                swap(&SJF[n].jid, &SJF[n+1].jid);
+                swap(&SJF[n].duration, &SJF[n+1].duration);
+            }
+        }
+        
+    }
+    i = 0;
+    while(i <= all){
+        BJF[i-1] = SJF[all-i];
+        i++;
+    }
+    i = 0;
+
     time_t theTime;
     struct tm * timeinfo;
     time (&theTime);
     timeinfo = localtime(&theTime);
     time_t start = theTime;
     i = 0;
+    printf("Using SJF\n");
     while(i <= (all-1)){
         printf("Starting Job: #%i at %s",FIFO[i].jid, asctime(timeinfo));
         theTime = theTime + FIFO[i].duration;
@@ -113,10 +133,15 @@ int main() {
         i++;
     }
     
-
+    // i = 0;
     // while(i <= (all-1)){
-    //     //printf("%i, %i, %i\n", input[i].jid, input[i].arrival, input[i].duration);
-    //     printf("%i, %i, %i\n", FIFO[i].jid, FIFO[i].arrival, FIFO[i].duration);
+    //     printf("%i, %i, %i\n", SJF[i].jid, SJF[i].arrival, SJF[i].duration);
+    //     i++;
+    // }
+    // i = 0;
+    // printf("\n");
+    // while(i <= (all-1)){
+    //     printf("%i, %i, %i\n", BJF[i].jid, BJF[i].arrival, BJF[i].duration);
     //     i++;
     // }
     return 0;
