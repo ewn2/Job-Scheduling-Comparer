@@ -132,7 +132,33 @@ int main() {
         printf("Total elapsed time: %li seconds\n\n", dif);
         i++;
     }
-    
+    printf("\n");
+    start = theTime;
+    i = 0;
+    printf("Using SJF\n");
+    while(i <= (all-1)){
+        printf("Job #%i Start at: %s",SJF[i].jid, asctime(timeinfo));
+        theTime = theTime + SJF[i].duration;
+        timeinfo = localtime(&theTime);
+        printf("Job #%i End at: %s", SJF[i].jid, asctime(timeinfo));
+        long dif = difftime(theTime, start);
+        printf("Total elapsed time: %li seconds\n\n", dif);
+        i++;
+    }
+    printf("\n");
+    start = theTime;
+    i = 0;
+    printf("Using BJF\n");
+    while(i <= (all-1)){
+        printf("Job #%i Start at: %s",BJF[i].jid, asctime(timeinfo));
+        theTime = theTime + BJF[i].duration;
+        timeinfo = localtime(&theTime);
+        printf("Job #%i End at: %s", BJF[i].jid, asctime(timeinfo));
+        long dif = difftime(theTime, start);
+        printf("Total elapsed time: %li seconds\n\n", dif);
+        i++;
+    }
+    printf("\n");
     // i = 0;
     // while(i <= (all-1)){
     //     printf("%i, %i, %i\n", SJF[i].jid, SJF[i].arrival, SJF[i].duration);
