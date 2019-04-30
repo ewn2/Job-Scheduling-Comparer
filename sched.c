@@ -21,17 +21,30 @@ struct jobs {
 };
 
 int main() {
+    char *p;
+    char *delim1 = " ";
+    char line[200];
+    int i = 0;
+    int current;
     FILE *jobList;
-    struct jobs input;
+    struct jobs input[20000];
     jobList = fopen ("jobs.dat", "r");
     if (jobList == NULL) {
         printf("\nUnable to either read jobs.dat file\n");
         exit (1);
     }
+    while(fgets(line, sizeof(line), jobList) != NULL && i < 1000) {
+        current = sscanf(line, "%i %i %i", &input[i].jid, &input[i].arrival, &input[i].duration);
+        i++;
+    }
 
-//    while(fread(&input, sizeof(struct jobs), 1, jobList)){
-//
-//    }
+    //Test Prints to check if jobs.dat has been correctly read;
+    i = 0;
+    while(i < 10){
+        printf("\n%i, %i, %i", input[i].jid, input[i].arrival, input[i].duration);
+        i++;
+    }
+    printf("\n");
     fclose(jobList);
     return 0;
     
