@@ -27,22 +27,6 @@ void swap(int *a, int *b) {
     *b = temp;
 }
 
-void Sort(int a[], int j) {
-    int m;
-    int n;
-    for(m = 0; m < j-1; m++)
-    {
-        for(n = 0; n < j-1; n++)
-        {
-            if(a[n] > a[n+1]) {
-                swap(&a[n], &a[n+1]);
-            }
-        }
-        
-    }
-    
-}
-
 int main() {
     char line[200];
     int i = 0;
@@ -229,7 +213,9 @@ int main() {
     averager = difftime(theTime, start)/all;
     printf("Average time per job: %li seconds\nEnd STCF\n\n", averager);
 
-    int slice = 1;
+    long slice = 2;
+    long brok[all];
+    long k = 0;
     i = 0;
     start = theTime;
     printf("Using RR\n");
@@ -238,7 +224,9 @@ int main() {
             theTime = theTime + RR[i].arrival;
         }
         printf("Job #%i Start at: %s",RR[i].jid, asctime(timeinfo));
-        theTime = theTime + RR[i].duration;
+        brok[i] = ceil(RR[i].duration/slice);
+        theTime = theTime + brok[i];
+        k = k + brok[i];
         timeinfo = localtime(&theTime);
         printf("Job #%i End at: %s", RR[i].jid, asctime(timeinfo));
         long roller = difftime((theTime - RR[i].duration), start + RR[i].arrival);
@@ -247,7 +235,7 @@ int main() {
         i++;
     }
     averager = difftime(theTime, start)/all;
-    printf("Average time per job: %li seconds\nEnd RR\n\n", averager);
-
+    printf("Average time per job: %li seconds\n", averager);
+    printf("Total Time Slices of Slice size %li: %li Slices\nEnd RR\n\n",slice, k);
     return 0;
 }
