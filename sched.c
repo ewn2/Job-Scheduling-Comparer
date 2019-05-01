@@ -16,9 +16,7 @@
 #include <time.h>
 
 struct jobs {
-    int jid;
-    int arrival;
-    int duration;
+    int jid, arrival, duration;
 };
 
 void swap(int *a, int *b) {
@@ -29,14 +27,7 @@ void swap(int *a, int *b) {
 
 int main() {
     char line[200];
-    int i = 0;
-    int all = 1;
-    int current;
-    int forFIFO;
-    int forSJF;
-    int forBJF;
-    int forSTCF;
-    int forRR;
+    int i = 0, all = 1, current, forFIFO, forSJF, forBJF, forSTCF, forRR;
     FILE *jobList;
     struct jobs input[100];
     struct jobs FIFO[100];
@@ -71,8 +62,7 @@ int main() {
         RR[i] = input[i];
         i++;
     }
-    int m;
-    int n;
+    int m, n;
     for(m = 0; m < all-1; m++)
     {
         for(n = 0; n < all-1; n++)
@@ -213,9 +203,7 @@ int main() {
     averager = difftime(theTime, start)/all;
     printf("Average time per job: %li seconds\nEnd STCF\n\n", averager);
 
-    long slice = 2;
-    long brok[all];
-    long k = 0;
+    long slice = 2, brok[all], k = 0;
     i = 0;
     start = theTime;
     printf("Using RR\n");
