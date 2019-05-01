@@ -203,7 +203,7 @@ int main() {
     averager = difftime(theTime, start)/all;
     printf("Average time per job: %li seconds\nEnd STCF\n\n", averager);
 
-    long slice = 2, brok[all], k = 0;
+    long slice = 1, brok[all], k = 0;
     i = 0;
     start = theTime;
     printf("Using RR\n");
@@ -224,6 +224,6 @@ int main() {
     }
     averager = difftime(theTime, start)/all;
     printf("Average time per job: %li seconds\n", averager);
-    printf("Total Time Slices of Slice size %li: %li Slices\nEnd RR\n\n",slice, k);
+    printf("Time Slices Size: %li second(s)\nEnd RR\n\n",slice);
     return 0;
 }
