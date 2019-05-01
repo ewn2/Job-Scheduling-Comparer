@@ -109,6 +109,20 @@ int main() {
         }
         
     }
+
+    for(m = 0; m < all-1; m++)
+    {
+        for(n = 0; n < all-1; n++)
+        {
+            if(STCF[n].duration > STCF[n+1].duration) {
+                swap(&STCF[n].arrival, &STCF[n+1].arrival);
+                swap(&STCF[n].jid, &STCF[n+1].jid);
+                swap(&STCF[n].duration, &STCF[n+1].duration);
+            }
+        }
+        
+    }
+    
     i = 0;
     while(i <= all){
         BJF[i-1] = SJF[all-i];
@@ -150,7 +164,7 @@ int main() {
         theTime = theTime + SJF[i].duration;
         timeinfo = localtime(&theTime);
         printf("Job #%i End at: %s", SJF[i].jid, asctime(timeinfo));
-        long roller = difftime(theTime - FIFO[i].arrival, start);
+        long roller = difftime(theTime - SJF[i].arrival, start);
         long dif = difftime(theTime, start);
         printf("Response Time: %li seconds\nTotal elapsed time: %li seconds\n\n", roller, dif);
         i++;
@@ -168,13 +182,31 @@ int main() {
         theTime = theTime + BJF[i].duration;
         timeinfo = localtime(&theTime);
         printf("Job #%i End at: %s", BJF[i].jid, asctime(timeinfo));
-        long roller = difftime(theTime - FIFO[i].arrival, start);
+        long roller = difftime(theTime - BJF[i].arrival, start);
         long dif = difftime(theTime, start);
         printf("Response Time: %li seconds\nTotal elapsed time: %li seconds\n\n", roller, dif);
         i++;
     }
     averager = difftime(theTime, start)/all;
     printf("Average time per job: %li seconds\nEnd BJF\n\n", averager);
+        start = theTime;
+    i = 0;
+    printf("Using STCF\n");
+    while(i <= (all-1)){
+        if ((theTime - STCF[i].arrival) < start) {
+            theTime = theTime + STCF[i].arrival;
+        }
+        printf("Job #%i Start at: %s",STCF[i].jid, asctime(timeinfo));
+        theTime = theTime + STCF[i].duration;
+        timeinfo = localtime(&theTime);
+        printf("Job #%i End at: %s", STCF[i].jid, asctime(timeinfo));
+        long roller = difftime(theTime - STCF[i].arrival, start);
+        long dif = difftime(theTime, start);
+        printf("Response Time: %li seconds\nTotal elapsed time: %li seconds\n\n", roller, dif);
+        i++;
+    }
+    averager = difftime(theTime, start)/all;
+    printf("Average time per job: %li seconds\nEnd STCF\n\n", averager);
     // i = 0;
     // while(i <= (all-1)){
     //     printf("%i, %i, %i\n", SJF[i].jid, SJF[i].arrival, SJF[i].duration);
