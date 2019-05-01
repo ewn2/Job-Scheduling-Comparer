@@ -60,6 +60,12 @@ int main() {
     struct jobs BJF[100];
     struct jobs STCF[100];
     struct jobs RR[100];
+    time_t theTime;
+    struct tm * timeinfo;
+    time (&theTime);
+    timeinfo = localtime(&theTime);
+    long averager;
+    time_t start = theTime;
     jobList = fopen ("jobs.dat", "r");
     if (jobList == NULL) {
         printf("\nUnable to either read jobs.dat file\n");
@@ -120,7 +126,17 @@ int main() {
                 swap(&STCF[n].duration, &STCF[n+1].duration);
             }
         }
-        
+    }
+    for(m = 0; m < all-1; m++)
+    {
+        for(n = 0; n < all-1; n++)
+        {
+            if ((STCF[n].arrival + STCF[n].duration) > (STCF[n+1].arrival + STCF[n+1].duration)){
+                swap(&STCF[n].arrival, &STCF[n+1].arrival);
+                swap(&STCF[n].jid, &STCF[n+1].jid);
+                swap(&STCF[n].duration, &STCF[n+1].duration);
+            }
+        }
     }
     
     i = 0;
@@ -130,13 +146,6 @@ int main() {
     }
     i = 0;
 
-    time_t theTime;
-    struct tm * timeinfo;
-    time (&theTime);
-    timeinfo = localtime(&theTime);
-    long averager;
-    time_t start = theTime;
-    i = 0;
     printf("Using FIFO\n");
     while(i <= (all-1)){
         if ((theTime - FIFO[i].arrival) < start) {
