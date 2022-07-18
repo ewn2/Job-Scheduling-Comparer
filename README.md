@@ -1,7 +1,4 @@
-# 142-a2
-CMPE 142: Operating Systems
-
-Assignment 2: Scheduling
+Job Scheduling Simulator
 
 Reads in 'jobs.dat' file with format:
 
